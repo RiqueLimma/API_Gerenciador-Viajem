@@ -1,0 +1,395 @@
+{
+	"info": {
+		"_postman_id": "87a8153e-57d2-4d60-9c79-83f036524939",
+		"name": "Curso Youtube API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15804225"
+	},
+	"item": [
+		{
+			"name": "Administrador",
+			"item": [
+				{
+					"name": "Fazer Login com Admistrador",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const resposta = pm.response.json();\r",
+									"pm.globals.set(\"token\", resposta.data.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n\"email\": \"admin@email.com\", \r\n\"senha\": \"654321\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{servidor}}/v1/auth",
+							"host": [
+								"{{servidor}}"
+							],
+							"path": [
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fazer novas aquisições de viagens",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"const schemaReference = {\r",
+									"    \"$ref\": \"#/definitions/ViagemResponse#/properties/data\"\r",
+									"}\r",
+									"pm.test(\"Validar a estrutura do corpo de resposta\", function () {\r",
+									"    pm.response.to.have.jsonSchema(schemaReference)\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"acompanhante\": \"Luis\",\r\n  \"dataPartida\": \"2024-07-08\",\r\n  \"dataRetorno\": \"2024-08-08\",\r\n  \"localDeDestino\": \"Bahia\",\r\n  \"regiao\": \"Norte\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{servidor}}/v1/viagens",
+							"host": [
+								"{{servidor}}"
+							],
+							"path": [
+								"v1",
+								"viagens"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "Fazer Login como usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"email\": \"usuario@email.com\", \r\n    \"senha\": \"123456\" \r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{servidor}}/v1/auth",
+							"host": [
+								"{{servidor}}"
+							],
+							"path": [
+								"v1",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "WireMock",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Prova Final",
+			"item": [
+				{
+					"name": "CadastrarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuarioNomeCompleto\": \"Luis Henrique de Sousa Lima\",\r\n  \"usuarioEmail\": \"lhsousalima@gmail.com\",\r\n  \"usuarioSenha\": \"lhsousalima\",\r\n  \"usuarioTelefone\": \"1177749682\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{provaAPI}}/usuarios",
+							"host": [
+								"{{provaAPI}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autenticacao",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuarioEmail\": \"lhsousalima@gmail.com\",\r\n  \"usuarioSenha\": \"lhsousalima\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{provaAPI}}/autenticacao",
+							"host": [
+								"{{provaAPI}}"
+							],
+							"path": [
+								"autenticacao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Perguntas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3VhcmlvaWQiOiIxMTc1IiwidXN1YXJpb25vbWUiOiJMdWlzIEhlbnJpcXVlIGRlIFNvdXNhIExpbWEiLCJ1c3VhcmlvZW1haWwiOiJsaHNvdXNhbGltYUBnbWFpbC5jb20iLCJ1c3VhcmlvdGVsZWZvbmUiOiIxMTc3NzQ5NjgyIn0.OZBx_-g60HATOGpCgYhJn6kHSesG15MQk_z9VC7z7sQ",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{provaAPI}}/perguntas",
+							"host": [
+								"{{provaAPI}}"
+							],
+							"path": [
+								"perguntas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resposta",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3VhcmlvaWQiOiIxMTc1IiwidXN1YXJpb25vbWUiOiJMdWlzIEhlbnJpcXVlIGRlIFNvdXNhIExpbWEiLCJ1c3VhcmlvZW1haWwiOiJsaHNvdXNhbGltYUBnbWFpbC5jb20iLCJ1c3VhcmlvdGVsZWZvbmUiOiIxMTc3NzQ5NjgyIn0.OZBx_-g60HATOGpCgYhJn6kHSesG15MQk_z9VC7z7sQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"perguntaId\": 19,\r\n  \"respostaDada\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{provaAPI}}/respostas",
+							"host": [
+								"{{provaAPI}}"
+							],
+							"path": [
+								"respostas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Certificado",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c3VhcmlvaWQiOiIxMTc1IiwidXN1YXJpb25vbWUiOiJMdWlzIEhlbnJpcXVlIGRlIFNvdXNhIExpbWEiLCJ1c3VhcmlvZW1haWwiOiJsaHNvdXNhbGltYUBnbWFpbC5jb20iLCJ1c3VhcmlvdGVsZWZvbmUiOiIxMTc3NzQ5NjgyIn0.OZBx_-g60HATOGpCgYhJn6kHSesG15MQk_z9VC7z7sQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"apresentarPercentual\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{provaAPI}}/certificados",
+							"host": [
+								"{{provaAPI}}"
+							],
+							"path": [
+								"certificados"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Testando API",
+			"item": [
+				{
+					"name": "Verificar status da API",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8089/api/v1/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8089",
+							"path": [
+								"api",
+								"v1",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
